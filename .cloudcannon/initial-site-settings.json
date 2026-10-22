@@ -5,6 +5,9 @@
     "install_command": "pnpm i",
     "build_command": "pnpm build",
     "output_path": "out",
-    "preserved_paths": "node_modules/,.next/"
+    "preserved_paths": "node_modules/,.next/",
+    "environment_variables": [
+      { "key": "CLOUDCANNON_STATIC_EXPORT", "value": "true" }
+    ]
   }
 }
