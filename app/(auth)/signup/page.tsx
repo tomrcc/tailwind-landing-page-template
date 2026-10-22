@@ -9,5 +9,12 @@ export function generateMetadata(): Metadata {
 
 export default function SignUp() {
   const { data } = getEntry("pages", "signup");
-  return <AuthForm {...data} />;
+  return (
+    <editable-component
+      data-component="auth-form"
+      data-prop="@file[/content/pages/signup.md]"
+    >
+      <AuthForm {...data} />
+    </editable-component>
+  );
 }

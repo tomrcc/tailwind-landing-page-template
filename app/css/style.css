@@ -206,11 +206,12 @@
   }
 }
 /* CloudCannon Visual Editor only (`.cms-editor-active` is on <body> there). */
-/* Re-rendered blocks lose AOS's animate class, so keep animated elements visible. */
+/* AOS hides [data-aos] and disables its pointer events until it adds aos-animate, which re-rendered blocks lose. */
 .cms-editor-active [data-aos] {
   opacity: 1 !important;
   transform: none !important;
   transition: none !important;
+  pointer-events: auto !important;
 }
 
 /* Terminal lines fade in and out on a loop; hold them visible while editing. */

@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import Link from "next/link";
 import AuthField, { type AuthFieldProps } from "@/components/auth-field";
 import { buttonStyles, styleClasses } from "@/components/ui/button-styles";
@@ -44,27 +43,21 @@ export default function AuthForm({
             </div>
           ))}
         </div>
-        {/* Bound by index: the divider sits between the buttons, so the list can't be an array region. */}
-        <div className="mt-6 space-y-3">
+        {/* Each item carries its own divider so the list stays array-pure; the form re-renders to place them. */}
+        <div className="mt-6 space-y-3" data-editable="array" data-prop="buttons">
           {(buttons ?? []).map((button, index) => (
-            <Fragment key={index}>
+            <div key={index} className="space-y-3" data-editable="array-item">
               {index > 0 && divider_text && (
-                <div
-                  className="text-center text-sm italic text-gray-400"
-                  data-editable="text"
-                  data-prop="divider_text"
-                >
+                <div className="text-center text-sm italic text-gray-400">
                   {divider_text}
                 </div>
               )}
               <button
                 className={`btn w-full ${styleClasses(buttonStyles, button.style)}`}
               >
-                <editable-text data-prop={`buttons.${index}.text`}>
-                  {button.text}
-                </editable-text>
+                <editable-text data-prop="text">{button.text}</editable-text>
               </button>
-            </Fragment>
+            </div>
           ))}
         </div>
       </form>

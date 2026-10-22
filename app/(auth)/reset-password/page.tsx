@@ -9,5 +9,12 @@ export function generateMetadata(): Metadata {
 
 export default function ResetPassword() {
   const { data } = getEntry("pages", "reset-password");
-  return <AuthForm {...data} />;
+  return (
+    <editable-component
+      data-component="auth-form"
+      data-prop="@file[/content/pages/reset-password.md]"
+    >
+      <AuthForm {...data} />
+    </editable-component>
+  );
 }

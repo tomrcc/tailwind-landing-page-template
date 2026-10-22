@@ -9,7 +9,7 @@ Paths in **Binding plan** are relative to the region's scope: the block (`conten
 | Page | Section | Treatment | Binding plan | Data completeness | Justification |
 | --- | --- | --- | --- | --- | --- |
 | Home (and new landing pages) | Page sections | array (page builder) | `Blocks`: `data-editable="array" data-prop="content_blocks" data-component-key="_type"`; each block in `<div data-editable="array-item" data-component={_type}>` | All block values in `index.md` | — |
-| Home | Hero | component + array + image + text | Registered `hero`. `avatars` array on the avatar row, each item a `div` array-item holding an image region (`data-prop-src="image"`, `data-prop-alt="alt"`); `title` h1, `description` p; `buttons` array on the button row, each `<a>` an array-item with `<editable-text data-prop="text">`; terminal `terminal.title` and `terminal.lines.0`…`5` by index | All in front matter. Button `href`/`style` are sidebar fields; the block re-renders on change | — |
+| Home | Hero | component + array + image + text | Registered `hero`. `avatars` array on the avatar row, each item a `div` array-item holding an image region (`data-prop-src="image"`, `data-prop-alt="alt"`); `title` h1, `description` p; `buttons` array on the button row, each button in a `div.flex` array-item (the styled `<a>` inside it) with `<editable-text data-prop="text">`; terminal `terminal.title` and `terminal.lines.0`…`5` by index | All in front matter. Button `href`/`style` are sidebar fields; the block re-renders on change | — |
 | Home | Hero terminal lines | text (by index) | `terminal.lines.N` on each slot `<span>` | Six fixed slots | No array region: the slots are separated by `<br>` siblings and each has its own animation class, and the input disables add/remove |
 | Home | Logo cloud | component + image (by index) | Registered `logo_cloud`; each slot's `<img>` is an image region `data-prop-src="logos.N.image"`, `data-prop-alt="logos.N.alt"` | Nine logos in front matter; positions in code | No array region: the nine slots sit in different positioned wrappers, not one container, and the input disables add/remove. Reorder in the sidebar |
 | Home | Features | component + array + image + text | Registered `features`; `title` h2; planet `<img>` image region `data-prop-src="image"` `data-prop-alt="image_alt"`; `items` array on the grid, each `<article>` an array-item with `title` (span) and `description` (p) | Icon is a select; the block re-renders on change | — |
@@ -18,9 +18,10 @@ Paths in **Binding plan** are relative to the region's scope: the block (`conten
 | Home | Decorative art (page illustration, stripes, planet overlay and tags, glows) | none | — | Not content (audit decision) | Decorative images in code, not editor content |
 | All default-layout pages | Header | data-file + component + array | `<editable-component data-component="header" data-prop="@data[navigation]">` in the layout; `items` array on the `<ul>`, each `<li>` an array-item with `<editable-text data-prop="text">` | Logo is a fixed SVG; buttons' `href`/`style` sidebar | — |
 | All default-layout pages | Footer | data-file + component + array | `<editable-component data-component="footer" data-prop="@data[footer]">` in the layout; `copyright` text; `columns` array on a `contents` wrapper (`data-direction="row"`), each column an array-item with `heading` h3 and a `links` array (`<editable-text data-prop="text">` per link); `social_heading` h3; `social` array on the icon `<ul>` | Watermark word renders through a CSS `attr()`; edited in the sidebar, re-renders live with the footer | Watermark: no text node to host a region (CSS `content`) |
-| Sign in, Sign up, Reset password | Heading | text | `heading` h1 | — | — |
+| Sign in, Sign up, Reset password | Account form | component | `<editable-component data-component="auth-form" data-prop="@file[/content/pages/<slug>.md]">` in each auth route; the regions below sit inside it and resolve against that file | Every visible value in the page file | — |
+| Auth pages | Heading | text | `heading` h1 | — | — |
 | Auth pages | Form fields | array + component + text | `fields` array on the field list with wrapper `data-component="auth-field"`; each field `div` an array-item with `data-component="auth-field"`; `label` text region on the `<label>` | `id`, `type`, `placeholder` are attributes, edited in the sidebar, re-rendered live by `auth-field` | — |
-| Auth pages | Form buttons | text (by index) | `<editable-text data-prop="buttons.N.text">` in each button; `divider_text` on the "Or" divider | `style` sidebar (after rebuild) | No array region: the divider renders between buttons inside the same container, so the container isn't array-pure. CRUD in the sidebar |
+| Auth pages | Form buttons | array + text | `buttons` array on the button list; each item a `div.space-y-3` array-item holding the "Or" divider (from the second item on) and the button, with `<editable-text data-prop="text">` | `style` and `divider_text` are edited in the sidebar and re-render live with `auth-form` | `divider_text` has no inline region: it renders inside each item, where a relative path resolves to the item, not the page |
 | Auth pages | Link / text below the form | text | `<editable-text data-prop="footer_link.text">` in the link; `footer_text` rich text (`data-type="text"`) on the `<p>` | `footer_link.href` sidebar | — |
 | Auth pages | Side panel terminal | data-file + text (by index) | `@data[auth].terminal.title`, `@data[auth].terminal.lines.N` on the slot spans | Six fixed slots | Primitive regions only: the panel is in the `(auth)` layout, which imports `data/auth.json`; nothing in it is computed |
 | Auth pages | Logo header, background art | none | — | Not content | Fixed SVG logo and decorative image |
@@ -60,11 +61,11 @@ Universal completeness checklist (../visual-editing.md):
 
 - [x] Editor enablement: `pages` has `visual`. `data` is data-editor only; its files are edited through `@data[...]` regions on the pages
 - [x] Census coverage: every row has regions or a written reason
-- [x] Array containers: avatars, hero buttons, features items, nav items, footer columns, links, social, auth fields. Bound by index instead (documented): hero/auth terminal lines, logo cloud, auth buttons
+- [x] Array containers: avatars, hero buttons, features items, nav items, footer columns, links, social, auth fields, auth buttons. Bound by index instead (documented): hero/auth terminal lines, logo cloud
 - [x] Per-loop census: each loop above has array + array-item + text/image regions on its visible fields. Social items have no visible text or image (icon from a select; re-rendered by the footer component). Click-outline check is a Phase 5 item
 - [x] Nested editables in array items
 - [x] Array path scope: relative paths inside every array-item; `@data[...]` only on the `editable-component` hosts and the auth terminal
-- [x] Array container purity: footer columns use a `contents` wrapper split from the logo and social columns; auth buttons bound by index because of the divider
+- [x] Array container purity: footer columns use a `contents` wrapper split from the logo and social columns; each auth button item carries its own divider, placed by the `auth-form` re-render
 - [x] Image editables: avatars, logos, planet image, testimonial photo. No `srcset` in the output (`images.unoptimized`)
 - [x] Child component labels: every visible label comes from content; hero/CTA arrow `->` is decoration in code
 - [x] Shared partials backed by data: header `@data[navigation]`, footer `@data[footer]`, auth panel `@data[auth]`
@@ -96,11 +97,11 @@ Next.js completeness checklist:
 
 - [x] Collection and data file config
 - [x] Regions inside the root: the root is the top `div` in `<body>`; every route renders inside it
-- [x] Registration wiring: every `componentMap` key appears as a `data-component`
+- [x] Registration wiring: every `componentMap` key appears as a `data-component` (`auth-form` on the auth routes)
 - [x] Client-safe registered components: no `async`, `fs`, `server-only`, `next/headers` or `useRouter`; `next/link` only
 - [x] Rich text hosts: `quote` and `footer_text` regions are the elements that receive `dangerouslySetInnerHTML`
 - n/a — `<template>` blueprints (none)
-- [x] Spread props: `<Block {...block} />`, `<Header {...navigation} />`, `<Footer {...footer} />`, `<AuthField {...field} />`
+- [x] Spread props: `<Block {...block} />`, `<Header {...navigation} />`, `<Footer {...footer} />`, `<AuthForm {...data} />`, `<AuthField {...field} />`
 - [x] Block items, shared block map, registration keys match `_type`
 
 Pre-handoff sweep:
@@ -111,7 +112,7 @@ Pre-handoff sweep:
 
 ## Build and parity
 
-`pnpm build` passes. Against the pre-Phase 4 output, per page (`index`, `signin`, `signup`, `reset-password`, `404`): visible text, `href`, `src`, `alt`, `placeholder`, `type`, `id` and `data-watermark` are identical. The only class changes are the six avatar wrappers (`flex`) and the footer column wrapper (`contents`). Added elements: the `Blocks` array `div` and one `div` per block, two `editable-component` wrappers, and inline `editable-text` around link and button labels. None of these carries styles outside the editor. Production pages load no editor code; the root element's script is the `EditableRegions` component, which does nothing until the editor's runtime loads.
+`pnpm build` passes. Against the pre-Phase 4 output, per page (`index`, `signin`, `signup`, `reset-password`, `404`): visible text, `href`, `src`, `alt`, `placeholder`, `type`, `id` and `data-watermark` are identical. The only new classes are on wrappers: avatar and hero button items (`flex`), the footer column wrapper (`contents`) and auth button items (`space-y-3`). The wrappers keep the same boxes: a `flex` item wrapper holds its child as the child was held before, and `space-y-3` on the auth items gives the same margins as the flat list. That follows from the CSS; I haven't compared screenshots. Added elements: a `div.flex` around each hero button, a `div.space-y-3` around each auth button (with the divider moved inside the second), an `editable-component` around each auth form, the `Blocks` array `div` and one `div` per block, two `editable-component` wrappers, and inline `editable-text` around link and button labels. None of these carries styles outside the editor. Production pages load no editor code; the root element's script is the `EditableRegions` component, which does nothing until the editor's runtime loads.
 
 Region counts in `out/` (`grep -oE`): `index.html` 30 text, 19 `editable-text`, 17 image, 10 array, 40 array-item, 2 `editable-component`; `signup.html` 14 text, 2 `editable-text`, 1 array, 4 array-item.
 
@@ -126,20 +127,24 @@ Region counts in `out/` (`grep -oE`): `index.html` 30 text, 19 `editable-text`, 
 - `components/blocks/{hero,logo-cloud,features,testimonial,cta}.tsx`, `components/terminal.tsx` — regions
 - `app/(default)/layout.tsx` — header and footer in `editable-component`, data imported here
 - `components/ui/header.tsx`, `components/ui/footer.tsx` — take their data file as props; regions
-- `components/auth-form.tsx`, `components/auth-field.tsx` (new), `app/(auth)/layout.tsx` — regions
+- `components/auth-form.tsx` (registered as `auth-form`), `components/auth-field.tsx` (new), `app/(auth)/layout.tsx` — regions
+- `app/(auth)/{signin,signup,reset-password}/page.tsx` — `auth-form` wrapped in `editable-component` over the page file
 - `app/css/style.css` — editor-only rules under `.cms-editor-active`
 
 ## Decisions and why
 
 - **Header and footer are registered components fed from the layout.** Both have computed output (button style classes, social icons, the watermark attribute), so a primitive-only header or footer would show sidebar changes only after a rebuild. The layout imports `navigation.json` and `footer.json` and wraps each in `<editable-component data-prop="@data[...]">`, per nextjs/visual-editing-reference.md § Registered components.
 - **Footer `border` defaults to `true`.** The editor re-renders the footer with the data file's keys only, so a prop passed by the layout would be lost on the first edit. The `(default)` layout was the only caller, and it passed `true`. `data-literal-prop-border` was the alternative; it isn't used because in 0.0.22 the literal key parsing looks wrong (see the feedback file).
-- **Terminal lines, logo cloud and auth buttons are bound by index**, not array regions. Terminal and logo slots are fixed-length with add/remove disabled, and their elements aren't array-pure siblings. The auth divider sits between buttons in the same container. Editors reorder and add these in the sidebar.
+- **Terminal lines and logo cloud are bound by index**, not array regions. Both are fixed-length with add/remove disabled, and their elements aren't array-pure siblings (`<br>` separators, separately positioned slots). Editors reorder them in the sidebar.
 - **Auth fields are an array with a wrapper `data-component="auth-field"`.** The field `type`, `id` and `placeholder` are input attributes, so the field re-renders as a component; new fields render through it without a `<template>`.
+- **Account form is one registered component over the page file.** `auth-form` is wrapped in `<editable-component data-prop="@file[/content/pages/<slug>.md]">` in each auth route, so any change to the page re-renders the form: button styles update live, and new or moved buttons get their divider in the right place. In 0.0.22 source an `@file[...]` prop is an absolute file listener, and the component receives that file's front matter as props (`realizeAPIValue`). Nesting the fields under one key was the alternative; it would change the schema and every auth file. `data-prop=""` would also render, but without edit controls.
+- **Auth buttons are an array whose items hold the divider.** Each item is a `div.space-y-3` holding the "Or" divider (from the second item on) and the button. The list is array-pure and has on-page add, remove and reorder, and the spacing matches the flat list (Tailwind `space-y` margins). `divider_text` is sidebar-only: inside an item a relative path resolves to the item.
+- **Array items never carry computed attributes.** A re-render updates an array item's children but not the item element's own attributes (`EditableArrayItem._update` → `updateTree` on its children). Hero buttons therefore sit in a `div.flex` item with the styled `<a>` inside. The header, footer, features, fields and auth button items have only static attributes on the item element.
 - **`Terminal` takes `dataProp`** (`terminal` in the hero, `@data[auth].terminal` in the auth layout), so one component serves both scopes.
 - **`EditableRegions` replaces the root layout's flex `div`** with the same classes. A wrapper inside it would have taken `main`'s place as the flex item and broken `grow`.
 - **Avatar items are `div.flex` wrappers around the image.** An element can't be both the array item and the image region; `flex` keeps the image box the same as when it was the flex item.
-- **Editor-only CSS** in `app/css/style.css`: AOS elements forced visible (re-rendered blocks lose `aos-animate`), terminal lines held visible (they fade on a 10s loop), and a minimum box on empty arrays. All under `.cms-editor-active`, so the live site is unchanged.
-- **Form guards in the editor.** In editor mode `CloudCannonEditor` sets `noValidate` on forms, cancels `submit`, and cancels the default action of clicks on form labels, so clicking into a button or label region doesn't submit the form or move focus to the input. Nothing runs outside the editor.
+- **Editor-only CSS** in `app/css/style.css`: AOS elements forced visible and clickable (`aos.css` sets `opacity: 0` and `pointer-events: none` on `[data-aos]` until `aos-animate`, which re-rendered blocks lose), terminal lines held visible (they fade on a 10s loop), and a minimum box on empty arrays. All under `.cms-editor-active`, so the live site is unchanged.
+- **Form guards in the editor.** In editor mode `CloudCannonEditor` adds capturing document listeners that cancel `invalid`, `submit`, and the default action of clicks inside form labels, so clicking into a button or label region doesn't validate or submit the form or move focus to the input. They are document listeners because a re-render resets the form's own attributes. Nothing runs outside the editor.
 - **`moduleResolution: "bundler"`.** The template's `"node"` ignores package `exports`, so TypeScript couldn't find `@cloudcannon/editable-regions/react` or its JSX types for `editable-*` elements, and `next build` failed type checking. `"bundler"` is what `create-next-app` writes today; the build and the parity check pass with it.
 - **`CloudCannonEditor` lives in `components/`**, the site's components folder, not `app/components/`. It imports `../app/cloudcannon/registerComponents`.
 - **Page `title`/`description` and `data/site.json` stay sidebar-only.** They render only in `<head>`.
@@ -147,20 +152,21 @@ Region counts in `out/` (`grep -oE`): `index.html` 30 text, 19 `editable-text`, 
 ## Open questions
 
 1. The footer's top border is now always on (it was on for every page that has a footer). Fine? Default: yes.
-2. In the editor, form labels and buttons don't act as form controls (no submit, no focus jump). Fine? Default: yes; the live site is unchanged.
+2. In the editor, form labels and buttons don't act as form controls (no validation, no submit, no focus jump). Fine? Default: yes; the live site is unchanged.
 3. In the editor, terminal lines stay visible instead of looping their fade. Fine? Default: yes.
+4. The "Or" text between account-form buttons is edited in the sidebar only (it updates live). Fine? Default: yes.
 
 ## For Phase 5: checks only the Visual Editor can answer
 
-Open `index.md` (Landing page) or an Account page in the Visual Editor.
+Open the page named in each question in the Visual Editor.
 
-1. Home: does clicking a hero avatar open the image picker for that avatar? (yes/no)
-2. Home: change a hero button's Style in the sidebar — does the button's colour change without saving? (yes/no)
-3. Home: in the Testimonial, select a few words of the quote and press italic — does the italic show and save? (yes/no)
-4. Home: do the hero and CTA show at full opacity after editing the hero title? (yes/no)
-5. Home: does the header show an edit control (outline or button) when you hover it? (yes/no)
-6. Home: in the footer, does adding a link to the "Company" column add a row on the page? (yes/no)
-7. Sign up: click into the "Register" button label and type — does the text change without the page reloading? (yes/no)
-8. Sign up: click into the "Email" label and type — does the caret stay in the label? (yes/no)
-9. Sign up: change the Email field's Placeholder in the sidebar — does the input's grey placeholder text change without saving? (yes/no)
+1. Home: does clicking the hero heading put a caret in it? (yes/no)
+2. Home: after editing the hero heading, does clicking the "Create your next project with Simple" heading put a caret in it? (yes/no)
+3. Home: change the first hero button's Style to Dark in the sidebar. Does the button turn dark without saving? (yes/no)
+4. Home: in the Testimonial, select a few words of the quote and press italic. Does the italic show and save? (yes/no)
+5. Home: does the header show an edit control (outline or button) when you hover over it? (yes/no)
+6. Sign up: hover over the "Register" button. Is there an add control that adds a third button on the page? (yes/no)
+7. Sign up: change the "Continue with GitHub" button's Style to Blue in the sidebar. Does it turn blue without saving? (yes/no)
+8. Sign up: click into the "Register" button label and type. Does the text change without the page reloading? (yes/no)
+9. Sign up: click into the "Email" label and type. Does the caret stay in the label? (yes/no)
 10. Any error card on any of the four pages? (paste the first line if yes)

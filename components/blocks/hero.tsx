@@ -83,31 +83,32 @@ export default function Hero({
                   data-editable="array"
                   data-prop="buttons"
                 >
+                  {/* The array item is a wrapper: re-renders update an item's children, not its own attributes. */}
                   {(buttons ?? []).map((button, index) => (
-                    <a
-                      key={index}
-                      className={[
-                        "btn group w-full sm:w-auto",
-                        index < buttons!.length - 1 && "mb-4 sm:mb-0",
-                        index > 0 && "sm:ml-4",
-                        styleClasses(buttonStyles, button.style),
-                      ]
-                        .filter(Boolean)
-                        .join(" ")}
-                      href={button.href ?? "#0"}
-                      data-editable="array-item"
-                    >
-                      {button.style === "primary" || !button.style ? (
-                        <span className="relative inline-flex items-center">
-                          <editable-text data-prop="text">{button.text}</editable-text>{" "}
-                          <span className="ml-1 tracking-normal text-blue-300 transition-transform group-hover:translate-x-0.5">
-                            -&gt;
+                    <div key={index} className="flex" data-editable="array-item">
+                      <a
+                        className={[
+                          "btn group w-full sm:w-auto",
+                          index < buttons!.length - 1 && "mb-4 sm:mb-0",
+                          index > 0 && "sm:ml-4",
+                          styleClasses(buttonStyles, button.style),
+                        ]
+                          .filter(Boolean)
+                          .join(" ")}
+                        href={button.href ?? "#0"}
+                      >
+                        {button.style === "primary" || !button.style ? (
+                          <span className="relative inline-flex items-center">
+                            <editable-text data-prop="text">{button.text}</editable-text>{" "}
+                            <span className="ml-1 tracking-normal text-blue-300 transition-transform group-hover:translate-x-0.5">
+                              -&gt;
+                            </span>
                           </span>
-                        </span>
-                      ) : (
-                        <editable-text data-prop="text">{button.text}</editable-text>
-                      )}
-                    </a>
+                        ) : (
+                          <editable-text data-prop="text">{button.text}</editable-text>
+                        )}
+                      </a>
+                    </div>
                   ))}
                 </div>
               </div>

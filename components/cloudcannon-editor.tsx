@@ -3,11 +3,10 @@
 import { useEffect } from "react";
 
 // The account forms have no action, so in the editor a click into a button or
-// label would submit the form or move focus to an input.
+// label would validate and submit the form or move focus to an input.
+// Document listeners, because re-renders replace the forms' attributes.
 function guardForms() {
-  document.querySelectorAll("form").forEach((form) => {
-    form.noValidate = true;
-  });
+  document.addEventListener("invalid", (event) => event.preventDefault(), true);
   document.addEventListener("submit", (event) => event.preventDefault(), true);
   document.addEventListener(
     "click",
