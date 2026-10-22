@@ -205,3 +205,22 @@
     border-color: var(--color-gray-200, currentColor);
   }
 }
+/* CloudCannon Visual Editor only (`.cms-editor-active` is on <body> there). */
+/* Re-rendered blocks lose AOS's animate class, so keep animated elements visible. */
+.cms-editor-active [data-aos] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Terminal lines fade in and out on a loop; hold them visible while editing. */
+.cms-editor-active [data-terminal-lines] span {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+/* Room for the "Add item" button when a list is empty. */
+.cms-editor-active [data-editable="array"]:empty {
+  min-width: 3rem;
+  min-height: 2rem;
+}

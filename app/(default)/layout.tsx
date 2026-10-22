@@ -1,34 +1,27 @@
-"use client";
-
-import { useEffect } from "react";
-
-import AOS from "aos";
-import "aos/dist/aos.css";
-
+import AosInit from "@/components/aos-init";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
+import navigation from "@/data/navigation.json";
+import footer from "@/data/footer.json";
 
 export default function DefaultLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  useEffect(() => {
-    AOS.init({
-      once: true,
-      disable: "phone",
-      duration: 700,
-      easing: "ease-out-cubic",
-    });
-  });
-
   return (
     <>
-      <Header />
+      <AosInit />
+
+      <editable-component data-component="header" data-prop="@data[navigation]">
+        <Header {...navigation} />
+      </editable-component>
 
       <main className="grow">{children}</main>
 
-      <Footer border={true} />
+      <editable-component data-component="footer" data-prop="@data[footer]">
+        <Footer {...footer} />
+      </editable-component>
     </>
   );
 }

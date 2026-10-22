@@ -1,0 +1,49 @@
+label: Testimonial
+icon: format_quote
+picker_preview:
+  text:
+    - Testimonial
+  icon:
+    - format_quote
+preview:
+  text:
+    - key: name
+    - Testimonial
+  subtext:
+    - key: role
+  icon:
+    - format_quote
+  image:
+    - key: image
+value:
+  _type: testimonial
+  image:
+  image_alt:
+  quote:
+  name:
+  role:
+  role_link:
+_inputs:
+  image:
+    type: image
+    label: Photo
+  image_alt:
+    type: text
+    label: Photo alt text
+  quote:
+    type: html
+    label: Quote
+    options:
+      italic: true
+      removeformat: true
+      undo: true
+      redo: true
+  name:
+    type: text
+    label: Name
+  role:
+    type: text
+    label: Role
+  role_link:
+    type: url
+    label: Role link

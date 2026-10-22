@@ -1,0 +1,42 @@
+label: Logo cloud
+icon: apps
+picker_preview:
+  text:
+    - Logo cloud
+  icon:
+    - apps
+preview:
+  text:
+    - Logo cloud
+  icon:
+    - apps
+value:
+  _type: logo_cloud
+  logos:
+    - image: /images/logo-01.svg
+      alt: Logo 01
+    - image: /images/logo-02.svg
+      alt: Logo 02
+    - image: /images/logo-03.svg
+      alt: Logo 03
+    - image: /images/logo-04.svg
+      alt: Logo 04
+    - image: /images/logo-05.svg
+      alt: Logo 05
+    - image: /images/logo-06.svg
+      alt: Logo 06
+    - image: /images/logo-07.svg
+      alt: Logo 07
+    - image: /images/logo-08.svg
+      alt: Logo 08
+    - image: /images/logo-09.svg
+      alt: Logo 09
+_inputs:
+  logos:
+    type: array
+    label: Logos
+    comment: Nine fixed positions, from the centre outwards. Swap or reorder logos; the layout holds exactly nine.
+    options:
+      structures: _structures.images
+      disable_add: true
+      disable_remove: true

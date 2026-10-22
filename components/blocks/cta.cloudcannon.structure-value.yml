@@ -1,0 +1,35 @@
+label: Call to action
+icon: campaign
+picker_preview:
+  text:
+    - Call to action
+  icon:
+    - campaign
+preview:
+  text:
+    - key: title
+    - Call to action
+  icon:
+    - campaign
+value:
+  _type: cta
+  title:
+  button:
+    text:
+    href:
+_inputs:
+  title:
+    type: text
+    label: Heading
+  button:
+    type: object
+    label: Button
+    options:
+      preview:
+        icon: ads_click
+  button.text:
+    type: text
+    label: Button text
+  button.href:
+    type: url
+    label: Button link

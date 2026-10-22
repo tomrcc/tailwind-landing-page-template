@@ -1,0 +1,6 @@
+{
+  "items": [
+    { "text": "Login", "href": "/signin", "style": "secondary" },
+    { "text": "Register", "href": "/signup", "style": "dark" }
+  ]
+}

@@ -1,0 +1,66 @@
+label: Hero
+icon: flag
+picker_preview:
+  text:
+    - Hero
+  icon:
+    - flag
+preview:
+  text:
+    - key: title
+    - Hero
+  subtext:
+    - key: description
+  icon:
+    - flag
+value:
+  _type: hero
+  avatars: []
+  title:
+  description:
+  buttons: []
+  terminal:
+    title: cruip.com
+    lines:
+      - npm login
+      - --registry=https://npm.pkg.github.com
+      - --scope=@phanatic
+      - Successfully logged-in.
+      - npm publish
+      - Package published.
+_inputs:
+  avatars:
+    type: array
+    label: Avatars
+    options:
+      structures: _structures.images
+  title:
+    type: text
+    label: Heading
+  description:
+    type: textarea
+    label: Intro
+  buttons:
+    type: array
+    label: Buttons
+    options:
+      structures: _structures.buttons
+  terminal:
+    type: object
+    label: Terminal panel
+    options:
+      preview:
+        icon: terminal
+  terminal.title:
+    type: text
+    label: Terminal title
+  lines:
+    type: array
+    label: Terminal lines
+    comment: Six fixed slots; each animates in turn
+    options:
+      disable_add: true
+      disable_remove: true
+  lines[*]:
+    type: text
+    label: Line

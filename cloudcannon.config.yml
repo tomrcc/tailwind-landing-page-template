@@ -1,0 +1,508 @@
+paths:
+  static: public
+  uploads: public/images
+timezone: Etc/UTC
+markdown:
+  engine: commonmark
+  options: {}
+collections_config:
+  pages:
+    path: content/pages
+    glob:
+      - "*.md"
+    url: /[slug]
+    icon: wysiwyg
+    disable_add_folder: true
+    create:
+      path: "[relative_base_path]/{title|slugify}.[ext]"
+    _enabled_editors:
+      - visual
+      - data
+    schemas:
+      page_builder:
+        path: .cloudcannon/schemas/page-builder.md
+        name: Landing page
+        icon: view_quilt
+        new_preview_url: /
+      auth:
+        path: .cloudcannon/schemas/auth.md
+        name: Account page
+        icon: login
+        _inputs:
+          heading:
+            type: text
+            label: Heading
+          fields:
+            type: array
+            label: Form fields
+            options:
+              structures: _structures.form_fields
+              unique_on: id
+          buttons:
+            type: array
+            label: Form buttons
+            options:
+              structures: _structures.form_buttons
+          divider_text:
+            type: text
+            label: Text between buttons
+            comment: Shown between the form buttons when there is more than one
+          footer_link:
+            type: object
+            label: Link below the form
+            options:
+              preview:
+                icon: link
+          footer_link.text:
+            type: text
+            label: Link text
+          footer_link.href:
+            type: url
+            label: Link
+          footer_text:
+            type: html
+            label: Text below the form
+            options:
+              link: true
+              bold: true
+              italic: true
+              removeformat: true
+              undo: true
+              redo: true
+    add_options:
+      - name: Landing page
+        schema: page_builder
+        icon: view_quilt
+    _inputs:
+      title:
+        type: text
+        label: Page title
+        comment: Shown in the browser tab and search results
+      description:
+        type: textarea
+        label: Page description
+        comment: Shown in search results
+  data:
+    path: data
+    glob:
+      - "*.json"
+    disable_url: true
+    disable_add: true
+    disable_add_folder: true
+    disable_file_actions: true
+    icon: settings
+    _enabled_editors:
+      - data
+collection_groups:
+  - heading: Pages
+    collections:
+      - pages
+  - heading: Site settings
+    collections:
+      - data
+data_config:
+  site:
+    path: data/site.json
+  navigation:
+    path: data/navigation.json
+  footer:
+    path: data/footer.json
+  auth:
+    path: data/auth.json
+_inputs:
+  _schema:
+    hidden: true
+  content_blocks:
+    type: array
+    label: Page sections
+    options:
+      structures:
+        values_from_glob:
+          - /components/blocks/*.cloudcannon.structure-value.yml
+_select_data:
+  button_styles:
+    - name: Blue
+      id: primary
+    - name: White
+      id: secondary
+    - name: Dark
+      id: dark
+  feature_icons:
+    - name: Dashboard
+      id: dashboard
+    - name: Check mark
+      id: check
+    - name: Target
+      id: target
+    - name: Code
+      id: code
+    - name: Dashed circle
+      id: dashed_circle
+    - name: Power
+      id: power
+  field_types:
+    - name: Email
+      id: email
+    - name: Password
+      id: password
+    - name: Text
+      id: text
+  social_platforms:
+    - name: X (Twitter)
+      id: twitter
+    - name: Medium
+      id: medium
+    - name: GitHub
+      id: github
+_structures:
+  images:
+    style: modal
+    values:
+      - label: Image
+        icon: image
+        picker_preview:
+          text:
+            - Image
+          icon:
+            - image
+        preview:
+          text:
+            - key: alt
+            - Image
+          icon:
+            - image
+          image:
+            - key: image
+        value:
+          image:
+          alt:
+        _inputs:
+          image:
+            type: image
+            label: Image
+          alt:
+            type: text
+            label: Alt text
+            comment: Describes the image for screen readers
+  buttons:
+    style: modal
+    values:
+      - label: Button
+        icon: ads_click
+        picker_preview:
+          text:
+            - Button
+          icon:
+            - ads_click
+        preview:
+          text:
+            - key: text
+            - Button
+          subtext:
+            - key: href
+          icon:
+            - ads_click
+        value:
+          text:
+          href:
+          style: primary
+        _inputs:
+          text:
+            type: text
+            label: Button text
+          href:
+            type: url
+            label: Link
+          style:
+            type: select
+            label: Style
+            options:
+              value_key: id
+              preview:
+                text:
+                  - key: name
+              values: _select_data.button_styles
+  form_buttons:
+    style: modal
+    values:
+      - label: Form button
+        icon: ads_click
+        picker_preview:
+          text:
+            - Form button
+          icon:
+            - ads_click
+        preview:
+          text:
+            - key: text
+            - Form button
+          icon:
+            - ads_click
+        value:
+          text:
+          style: primary
+        _inputs:
+          text:
+            type: text
+            label: Button text
+          style:
+            type: select
+            label: Style
+            options:
+              value_key: id
+              preview:
+                text:
+                  - key: name
+              values: _select_data.button_styles
+  feature_items:
+    style: modal
+    values:
+      - label: Feature
+        icon: star
+        picker_preview:
+          text:
+            - Feature
+          icon:
+            - star
+        preview:
+          text:
+            - key: title
+            - Feature
+          subtext:
+            - key: description
+          icon:
+            - star
+        value:
+          icon: dashboard
+          title:
+          description:
+        _inputs:
+          icon:
+            type: select
+            label: Icon
+            options:
+              value_key: id
+              preview:
+                text:
+                  - key: name
+              values: _select_data.feature_icons
+          title:
+            type: text
+            label: Title
+          description:
+            type: textarea
+            label: Description
+  form_fields:
+    style: modal
+    values:
+      - label: Form field
+        icon: input
+        picker_preview:
+          text:
+            - Form field
+          icon:
+            - input
+        preview:
+          text:
+            - key: label
+            - Form field
+          subtext:
+            - key: type
+          icon:
+            - input
+        value:
+          id:
+          label:
+          type: text
+          placeholder:
+        _inputs:
+          id:
+            type: text
+            label: Field ID
+            comment: Unique within the form, lowercase with no spaces. Connects the label to its field.
+          label:
+            type: text
+            label: Label
+          type:
+            type: select
+            label: Field type
+            options:
+              value_key: id
+              preview:
+                text:
+                  - key: name
+              values: _select_data.field_types
+          placeholder:
+            type: text
+            label: Placeholder
+  links:
+    style: modal
+    values:
+      - label: Link
+        icon: link
+        picker_preview:
+          text:
+            - Link
+          icon:
+            - link
+        preview:
+          text:
+            - key: text
+            - Link
+          subtext:
+            - key: href
+          icon:
+            - link
+        value:
+          text:
+          href:
+        _inputs:
+          text:
+            type: text
+            label: Link text
+          href:
+            type: url
+            label: Link
+  footer_columns:
+    style: modal
+    values:
+      - label: Link column
+        icon: view_column
+        picker_preview:
+          text:
+            - Link column
+          icon:
+            - view_column
+        preview:
+          text:
+            - key: heading
+            - Link column
+          icon:
+            - view_column
+        value:
+          heading:
+          links: []
+        _inputs:
+          heading:
+            type: text
+            label: Column heading
+          links:
+            type: array
+            label: Links
+            options:
+              structures: _structures.links
+  social_links:
+    style: modal
+    values:
+      - label: Social link
+        icon: share
+        picker_preview:
+          text:
+            - Social link
+          icon:
+            - share
+        preview:
+          text:
+            - key: platform
+            - Social link
+          subtext:
+            - key: href
+          icon:
+            - share
+        value:
+          platform: twitter
+          href:
+        _inputs:
+          platform:
+            type: select
+            label: Platform
+            options:
+              value_key: id
+              preview:
+                text:
+                  - key: name
+              values: _select_data.social_platforms
+          href:
+            type: url
+            label: Profile link
+file_config:
+  - glob: data/site.json
+    _inputs:
+      $:
+        type: object
+        options:
+          preview:
+            icon: language
+      title:
+        type: text
+        label: Default page title
+        comment: Used on pages that don't set their own title
+      description:
+        type: textarea
+        label: Default page description
+  - glob: data/navigation.json
+    _inputs:
+      $:
+        type: object
+        options:
+          preview:
+            icon: menu
+      items:
+        type: array
+        label: Header buttons
+        options:
+          structures: _structures.buttons
+  - glob: data/footer.json
+    _inputs:
+      $:
+        type: object
+        options:
+          preview:
+            icon: bottom_navigation
+      copyright:
+        type: text
+        label: Copyright line
+      watermark:
+        type: text
+        label: Large background word
+        comment: The oversized faded word at the very bottom of the page
+      columns:
+        type: array
+        label: Link columns
+        options:
+          structures: _structures.footer_columns
+      social_heading:
+        type: text
+        label: Social links heading
+      social:
+        type: array
+        label: Social links
+        options:
+          structures: _structures.social_links
+  - glob: data/auth.json
+    _inputs:
+      $:
+        type: object
+        options:
+          preview:
+            icon: login
+      terminal:
+        type: object
+        label: Side panel terminal
+        comment: The animated terminal beside the sign in, sign up and reset password forms
+        options:
+          preview:
+            icon: terminal
+      title:
+        type: text
+        label: Terminal title
+      lines:
+        type: array
+        label: Terminal lines
+        comment: Six fixed slots; each animates in turn
+        options:
+          disable_add: true
+          disable_remove: true
+      lines[*]:
+        type: text
+        label: Line

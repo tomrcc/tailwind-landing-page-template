@@ -1,0 +1,36 @@
+label: Features
+icon: grid_view
+picker_preview:
+  text:
+    - Features
+  icon:
+    - grid_view
+preview:
+  text:
+    - key: title
+    - Features
+  icon:
+    - grid_view
+  image:
+    - key: image
+value:
+  _type: features
+  title:
+  image:
+  image_alt:
+  items: []
+_inputs:
+  title:
+    type: text
+    label: Heading
+  image:
+    type: image
+    label: Centre image
+  image_alt:
+    type: text
+    label: Centre image alt text
+  items:
+    type: array
+    label: Features
+    options:
+      structures: _structures.feature_items

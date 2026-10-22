@@ -1,7 +1,11 @@
 import Link from "next/link";
 import Logo from "./logo";
+import { headerButtonStyles, styleClasses } from "./button-styles";
 
-export default function Header() {
+type NavItem = { text?: string | null; href?: string | null; style?: string | null };
+
+export default function Header({ items }: { items?: NavItem[] | null }) {
+
   return (
     <header className="fixed top-2 z-30 w-full md:top-6">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -12,23 +16,21 @@ export default function Header() {
           </div>
 
           {/* Desktop sign in links */}
-          <ul className="flex flex-1 items-center justify-end gap-3">
-            <li>
-              <Link
-                href="/signin"
-                className="btn-sm bg-white text-gray-800 shadow-sm hover:bg-gray-50"
-              >
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/signup"
-                className="btn-sm bg-gray-800 text-gray-200 shadow-sm hover:bg-gray-900"
-              >
-                Register
-              </Link>
-            </li>
+          <ul
+            className="flex flex-1 items-center justify-end gap-3"
+            data-editable="array"
+            data-prop="items"
+          >
+            {(items ?? []).map((item, index) => (
+              <li key={index} data-editable="array-item">
+                <Link
+                  href={item.href ?? "#0"}
+                  className={`btn-sm ${styleClasses(headerButtonStyles, item.style)}`}
+                >
+                  <editable-text data-prop="text">{item.text}</editable-text>
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

@@ -1,7 +1,12 @@
 import Image from "next/image";
 import Stripes from "@/public/images/stripes-dark.svg";
 
-export default function Cta() {
+export type CtaProps = {
+  title?: string | null;
+  button?: { text?: string | null; href?: string | null } | null;
+};
+
+export default function Cta({ title, button }: CtaProps) {
   return (
     <section>
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -30,21 +35,28 @@ export default function Cta() {
             />
           </div>
           <div className="px-4 py-12 md:px-12 md:py-20">
-            <h2 className="mb-6 border-y text-3xl font-bold text-gray-200 [border-image:linear-gradient(to_right,transparent,--theme(--color-slate-700/.7),transparent)1] md:mb-12 md:text-4xl">
-              Create your next project with Simple
+            <h2 className="mb-6 border-y text-3xl font-bold text-gray-200 [border-image:linear-gradient(to_right,transparent,--theme(--color-slate-700/.7),transparent)1] md:mb-12 md:text-4xl"
+              data-editable="text"
+              data-prop="title"
+            >
+              {title}
             </h2>
             <div className="mx-auto max-w-xs sm:flex sm:max-w-none sm:justify-center">
-              <a
-                className="btn group mb-4 w-full bg-linear-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow-sm hover:bg-[length:100%_150%] sm:mb-0 sm:w-auto"
-                href="#0"
-              >
-                <span className="relative inline-flex items-center">
-                  Start Free Trial{" "}
-                  <span className="ml-1 tracking-normal text-blue-300 transition-transform group-hover:translate-x-0.5">
-                    -&gt;
+              {button?.text && (
+                <a
+                  className="btn group mb-4 w-full bg-linear-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow-sm hover:bg-[length:100%_150%] sm:mb-0 sm:w-auto"
+                  href={button.href ?? "#0"}
+                >
+                  <span className="relative inline-flex items-center">
+                    <editable-text data-prop="button.text">
+                      {button.text}
+                    </editable-text>{" "}
+                    <span className="ml-1 tracking-normal text-blue-300 transition-transform group-hover:translate-x-0.5">
+                      -&gt;
+                    </span>
                   </span>
-                </span>
-              </a>
+                </a>
+              )}
             </div>
           </div>
         </div>

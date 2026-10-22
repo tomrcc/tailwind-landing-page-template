@@ -1,0 +1,40 @@
+{
+  "copyright": "© Cruip.com - All rights reserved.",
+  "watermark": "Simple",
+  "columns": [
+    {
+      "heading": "Product",
+      "links": [
+        { "text": "Features", "href": "#0" },
+        { "text": "Integrations", "href": "#0" },
+        { "text": "Pricing & Plans", "href": "#0" },
+        { "text": "Changelog", "href": "#0" },
+        { "text": "Our method", "href": "#0" }
+      ]
+    },
+    {
+      "heading": "Company",
+      "links": [
+        { "text": "About us", "href": "#0" },
+        { "text": "Diversity & Inclusion", "href": "#0" },
+        { "text": "Blog", "href": "#0" },
+        { "text": "Careers", "href": "#0" },
+        { "text": "Financial statements", "href": "#0" }
+      ]
+    },
+    {
+      "heading": "Resources",
+      "links": [
+        { "text": "Community", "href": "#0" },
+        { "text": "Terms of service", "href": "#0" },
+        { "text": "Report a vulnerability", "href": "#0" }
+      ]
+    }
+  ],
+  "social_heading": "Social",
+  "social": [
+    { "platform": "twitter", "href": "#0" },
+    { "platform": "medium", "href": "#0" },
+    { "platform": "github", "href": "#0" }
+  ]
+}
