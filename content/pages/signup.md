@@ -9,9 +9,9 @@ fields:
     type: text
     placeholder: Corey Barker
   - id: email
-    label: Email
+    label: Email asd
     type: email
-    placeholder: corybarker@email.com
+    placeholder: corybarker@email.com!!
   - id: phone
     label: Phone
     type: text
@@ -21,13 +21,16 @@ fields:
     type: password
     placeholder: ••••••••
 buttons:
-  - text: Register
-    style: primary
+  - text: asdterasd
+    style: secondary
   - text: Continue with GitHub
     style: dark
+  - text: asdasdasd
+    style: primary
 divider_text: Or
 footer_link:
   text:
   href:
-footer_text: 'By signing up, you agree to the <a href="#0">Terms of Service</a> and <a href="#0">Privacy Policy</a>.'
+footer_text: By signing up, you agree to the <a href="#0">Terms of Service</a>
+  and <a href="#0">Privacy Policy</a>.
 ---
